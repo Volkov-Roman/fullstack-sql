@@ -1,7 +1,5 @@
 require('dotenv').config()
 const { Sequelize, Model, DataTypes } = require('sequelize')
-const express = require('express')
-const app = express()
 
 const sequelize = new Sequelize(process.env.DATABASE_URL)
 
@@ -13,9 +11,7 @@ Blog.init({
     primaryKey: true,
     autoIncrement: true
   },
-  author: {
-    type: DataTypes.TEXT
-  },
+  author: DataTypes.TEXT,
   url: {
     type: DataTypes.TEXT,
     allowNull: false
@@ -35,22 +31,16 @@ Blog.init({
   modelName: 'blog'
 })
 
-app.get('/api/blogs', async (req, res) => {
-  const blogs = await Blog.findAll()
-  res.json(blogs)
-})
-
-app.post('/api/blogs', async (req, res) => {
+const main = async () => {
   try {
-    console.log(req.body)
-    const blog = await Blog.create(req.body)
-    res.json(blog)
+    const blogs = await Blog.findAll()
+    blogs.forEach(blog => {
+      console.log(`${blog.author}: '${blog.title}', ${blog.likes} likes`)
+    })
+    await sequelize.close()
   } catch (error) {
-    res.status(400).json({ error })
+    console.error('Error fetching blogs:', error)
   }
-})
+}
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+main()
