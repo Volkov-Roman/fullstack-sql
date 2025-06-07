@@ -20,23 +20,26 @@ router.get('/:id', blogFinder, async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body)
     const blog = await Blog.create(req.body)
     res.json(blog)
   } catch (error) {
-    res.status(400).json({ error })
+    next(error)
   }
 })
 
-router.put('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
-    req.blog.likes = req.body.likes
-    await req.blog.save()
-    res.json(req.blog)
-  } else {
-    res.status(404).end()
+router.put('/:id', blogFinder, async (req, res, next) => {
+  try {
+    if (req.blog) {
+      req.blog.likes = req.body.likes
+      await req.blog.save()
+      res.json(req.blog)
+    } else {
+      res.status(404).end()
+    }
+  } catch (error) {
+    next(error)
   }
 })
 

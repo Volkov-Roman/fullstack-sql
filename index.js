@@ -10,6 +10,11 @@ app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 
+app.use((err, req, res, next) => {
+  console.error(err.message)
+  res.status(400).json({ error: 'bad request' })
+})
+
 const start = async () => {
   await connectToDatabase()
   app.listen(PORT, () => {
