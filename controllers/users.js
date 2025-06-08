@@ -69,7 +69,10 @@ router.get('/:id', async (req, res) => {
   })
 
   if (user) {
-    res.json(user)
+    const userJson = user.toJSON()
+    userJson.readings = userJson.marked_blogs
+    delete userJson.marked_blogs
+    res.json(userJson)
   } else {
     res.status(404).end()
   }
