@@ -50,3 +50,7 @@ Content-Type: application/json
 
 ### Get all blogs
 GET http://localhost:3001/api/blogs
+
+### Search for "test"
+GET http://localhost:3001/api/blogs?search=test
+
