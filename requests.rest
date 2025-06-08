@@ -25,7 +25,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q2QGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc0OTM4MjQxMn0.Zl5xX5lj1H0OlJcqDJXvs7F4jIz-YP9MP-1l2tLD6v8
 
 {
-  "title": "Test Blog",
+  "title": "New Test Blog",
   "author": "Someone",
   "url": "https://example.com",
   "likes": 0,
@@ -65,4 +65,13 @@ Content-Type: application/json
 {
   "userId": 1,
   "blogId": 1
+}
+
+### Mark as read
+PUT http://localhost:3001/api/readinglists/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q2QGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc0OTM5MDM5NH0.4hPKk3uWZ760_kp2ak5mnhZpbyufVip1BIUs1y5578Y
+
+{
+  "read": true
 }
