@@ -1,7 +1,7 @@
 const { tokenExtractor } = require('../util/middleware')
 const router = require('express').Router()
 
-const { User, Blog } = require('../models')
+const { User, Blog, Team } = require('../models')
 
 const isAdmin = async (req, res, next) => {
   const user = await User.findByPk(req.decodedToken.id)
@@ -13,10 +13,19 @@ const isAdmin = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Blog,
-      attributes: { exclude: ['userId'] }
-    }
+    include: [
+      {
+        model: Blog,
+        attributes: { exclude: ['userId'] }
+      },
+      {
+        model: Team,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: []
+        }
+      }
+    ]
   })
   res.json(users)
 })
@@ -31,7 +40,34 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res) => {
-  const user = await User.findByPk(req.params.id)
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: [''] } ,
+    include:[{
+        model: Blog,
+        attributes: { exclude: ['userId'] }
+      },
+      {
+        model: Blog,
+        as: 'marked_blogs',
+        attributes: { exclude: ['userId']},
+        through: {
+          attributes: []
+        },
+        include: {
+          model: User,
+          attributes: ['name']
+        }
+      },
+      {
+        model: Team,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: []
+        }
+      },
+    ]
+  })
+
   if (user) {
     res.json(user)
   } else {
