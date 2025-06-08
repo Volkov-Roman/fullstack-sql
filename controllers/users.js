@@ -40,25 +40,35 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res) => {
+  const readFilter = req.query.read
+
+  const readingInclude = {
+    model: Blog,
+    as: 'marked_blogs',
+    attributes: { exclude: ['userId'] },
+    through: {
+      attributes: ['id', 'read'],
+      as: 'readinglists'
+    },
+    include: {
+      model: User,
+      attributes: ['name']
+    }
+  }
+
+  if (readFilter === 'true') {
+    readingInclude.through.where = { read: true }
+  } else if (readFilter === 'false') {
+    readingInclude.through.where = { read: false }
+  }
+
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: [''] } ,
     include:[{
         model: Blog,
         attributes: { exclude: ['userId'] }
       },
-      {
-        model: Blog,
-        as: 'marked_blogs',
-        attributes: { exclude: ['userId']},
-        through: {
-          attributes: ['id', 'read'],
-          as: 'readinglists'
-        },
-        include: {
-          model: User,
-          attributes: ['name']
-        }
-      },
+      readingInclude,
       {
         model: Team,
         attributes: ['name', 'id'],
