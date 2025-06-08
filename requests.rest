@@ -54,3 +54,5 @@ GET http://localhost:3001/api/blogs
 ### Search for "test"
 GET http://localhost:3001/api/blogs?search=test
 
+### Get aggregated blog stats per author
+GET http://localhost:3001/api/authors
