@@ -22,13 +22,14 @@ GET http://localhost:3001/api/users
 ### Create a blog
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q2QGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc0OTM4MDUwOX0.ur51lEuTkuwTkyAUL0eK5ONqQhK6B60YWdGbfhk41Xs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q2QGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc0OTM4MjQxMn0.Zl5xX5lj1H0OlJcqDJXvs7F4jIz-YP9MP-1l2tLD6v8
 
 {
   "title": "Test Blog",
   "author": "Someone",
   "url": "https://example.com",
-  "likes": 0
+  "likes": 0,
+  "year": 2000
 }
 
 ### Update username
